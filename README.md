@@ -117,6 +117,10 @@ Parameters for `akamai_g2o_validate_nginx()` are as follows:
 * secret key (same like in Akamai configuration file)
 * time delta - acceptable time margin for timestamp validation
 
+# Contribution
+
+If your server is not listed and supports LUA then you are more than welcome to contribute and implement the connector :)
+
 
 # Testing
 
