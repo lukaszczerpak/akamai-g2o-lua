@@ -30,7 +30,7 @@ The connectors are vendor specific and their responsibility is to ease the libra
 
 # How to install
 
-## Prerequisities
+## Prerequisites
 
 G2O validation requires **luaossl** library which can be installed with *luarocks*.  
 Please refer to your distribution documentation regarding installation steps.
@@ -90,6 +90,9 @@ It is possible to enable G2O validation is soft-mode, so requests with invalid G
 ```
 
 ## NGINX
+
+*Note: It is assumed that the configuration file and all G2O related files are stored in `/etc/nginx` path.*
+
 
 Enable lua module in `/etc/nginx/nginx.conf` first:
 
