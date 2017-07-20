@@ -127,7 +127,7 @@ If your server is not listed and supports LUA then you are more than welcome to 
 
 # Testing
 
-The G2O validation has unit tests which can be run with the following command
+The G2O validation has unit tests which can be run with the following command (<https://olivinelabs.com/busted/>):
 
 ```sh
 ❯❯❯ busted akamai-g2o_spec.lua
