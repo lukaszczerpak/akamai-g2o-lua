@@ -35,6 +35,12 @@ The connectors are vendor specific and their responsibility is to ease the libra
 G2O validation requires **luaossl** library which can be installed with *luarocks*.  
 Please refer to your distribution documentation regarding installation steps.
 
+Sample steps for Ubuntu 18.04:
+
+```bash
+apt install luarocks libssl-dev
+luarocks install luaossl
+```
 
 ## HAProxy
 
