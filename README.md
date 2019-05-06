@@ -91,7 +91,13 @@ It is possible to enable G2O validation is soft-mode, so requests with invalid G
 
 ## NGINX
 
-*Note: It is assumed that the configuration file and all G2O related files are stored in `/etc/nginx` path.*
+Download g2o wrapper and library to `/etc/nginx/lua` folder:
+
+```
+mkdir /etc/nginx/lua
+wget -P /etc/nginx/lua https://raw.githubusercontent.com/lukaszczerpak/akamai-g2o-lua/master/akamai-g2o-nginx-wrapper.lua
+wget -P /etc/nginx/lua https://raw.githubusercontent.com/lukaszczerpak/akamai-g2o-lua/master/akamai-g2o.lua
+```
 
 
 Enable lua module in `/etc/nginx/nginx.conf` first:
@@ -100,17 +106,22 @@ Enable lua module in `/etc/nginx/nginx.conf` first:
 load_module modules/ngx_http_lua_module.so;
 ```
 
-and load the connector in `server` section:
+and initialize the connector in `server` section:
 
 ```
-init_by_lua 'require("/etc/nginx/akamai-g2o-nginx-wrapper")';
+http {
+    ...
+    
+    lua_package_path "/etc/nginx/lua/?.lua;;";
+    init_by_lua_block { require "akamai-g2o-nginx-wrapper" }
+}
 ```
 
 G2O can be enabled for certain paths or entire site in the following way:
 
 ```
-  location /nginx-g2o {
-     access_by_lua 'akamai_g2o_validate_nginx(5, "s3cr3tk3y", 30)';
+  location / {
+     access_by_lua_block { akamai_g2o_validate_nginx(5, "s3cr3tk3y", 30) }
   }
 ```
 

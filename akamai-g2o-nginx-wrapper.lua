@@ -1,4 +1,3 @@
-package.path = '/etc/nginx/?.lua;' .. package.path
 require("akamai-g2o")
 
 function akamai_g2o_validate_nginx(version, secret, delta)
