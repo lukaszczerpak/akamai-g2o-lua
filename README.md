@@ -35,10 +35,20 @@ The connectors are vendor specific and their responsibility is to ease the libra
 G2O validation requires **luaossl** library which can be installed with *luarocks*.  
 Please refer to your distribution documentation regarding installation steps.
 
-Sample steps for Ubuntu 18.04:
+### Ubuntu 18.04
 
 ```bash
 apt install luarocks libssl-dev
+luarocks install luaossl
+```
+
+### CentOS
+
+Add `epel` repository and install lua packages:
+
+```bash
+yum install epel-release
+yum install luarocks openssl-devel lua-devel gcc
 luarocks install luaossl
 ```
 
@@ -99,7 +109,7 @@ It is possible to enable G2O validation is soft-mode, so requests with invalid G
 
 Download g2o wrapper and library to `/etc/nginx/lua` folder:
 
-```
+```bash
 mkdir /etc/nginx/lua
 wget -P /etc/nginx/lua https://raw.githubusercontent.com/lukaszczerpak/akamai-g2o-lua/master/akamai-g2o-nginx-wrapper.lua
 wget -P /etc/nginx/lua https://raw.githubusercontent.com/lukaszczerpak/akamai-g2o-lua/master/akamai-g2o.lua
@@ -136,6 +146,38 @@ Parameters for `akamai_g2o_validate_nginx()` are as follows:
 * version of G2O
 * secret key (same like in Akamai configuration file)
 * time delta - acceptable time margin for timestamp validation
+
+## Apache (CentOS)
+
+Download g2o wrapper and library to `/etc/httpd/lua` folder:
+
+```bash
+mkdir /etc/httpd/lua
+wget -P /etc/httpd/lua https://raw.githubusercontent.com/lukaszczerpak/akamai-g2o-lua/master/akamai-g2o-apache-wrapper.lua
+wget -P /etc/httpd/lua https://raw.githubusercontent.com/lukaszczerpak/akamai-g2o-lua/master/akamai-g2o.lua
+```
+
+Ensure `mod_lua` is enabled in Apache (it is by default):
+
+```
+LoadModule lua_module modules/mod_lua.so
+```
+
+In the apache configuration, you need to declare the following:
+
+- default location of lua scripts
+- authz provider
+- paths to be validated against g2o
+
+Sample configuration snippet:
+
+```
+LuaRoot /etc/httpd/lua
+LuaAuthzProvider akamai_g2o akamai-g2o-apache-wrapper.lua akamai_g2o_validate_apache
+<Location "/">
+  Require akamai_g2o 5 "s3cr3tk3y" 30
+</Location>
+```
 
 # Contribution
 
